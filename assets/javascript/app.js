@@ -1,24 +1,38 @@
 timeRemaining = 5;
 questionCount = 0;
-questionsArray = [".question1", ".question2", ".question3"]
 
+questionGuessesArray = [
+          {
+            question: "This is Question 1",
+            answer1: "This is Q1A1",
+            answer2: "This is Q1A2",
+            answer3: "This is Q1A3",
+            answer4: "This is Q1A4"
+            } , {
+            question: "This is Question 1",
+            answer1: "This is Q1A1",
+            answer2: "This is Q1A2",
+            answer3: "This is Q1A3",
+            answer4: "This is Q1A4"
+            } , {
+            question: "This is Question 1",
+            answer1: "This is Q1A1",
+            answer2: "This is Q1A2",
+            answer3: "This is Q1A3",
+            answer4: "This is Q1A4"
+            } 
+]
 
 $(document).ready(function(){
 
-    //hiding all questions at start of game
-    $(".question1").hide();
-    $(".question2").hide();
-    $(".question3").hide();
+    console.log(questionGuessesArray[2].answer1);//can reach in and grab the specific answer i want
 
+    //when start button is selected
     $("#start").on("click", function(){
 
         //hiding start button after it is clicked
         $("#start").hide();
 
-       // for (i = 0; i < questionsArray.length; i++) {
-           // $([i]).show();
-           // runTime();
-        //}
         
         function runTime(){
             var setIntervalID = setInterval(function(){
@@ -32,7 +46,17 @@ $(document).ready(function(){
             },1000 );
         }
 
-        $(".question1").show();
+        //function showQuestionAndAnswers(){
+          //  for (i = 0; i < questionGuessesArray; i++) {
+                $("#question").html(questionGuessesArray[0].question);
+                $("#answer1").html(questionGuessesArray[0].answer1);
+                $("#answer2").html(questionGuessesArray[0].answer2);
+                $("#answer3").html(questionGuessesArray[0].answer3);
+                $("#answer4").html(questionGuessesArray[0].answer4);
+            //}
+        //}
+
+        //showQuestionAndAnswers()
         runTime();
 
     });
