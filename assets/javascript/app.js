@@ -2,68 +2,80 @@ timeRemaining = 5;
 correctAnswers = 0;
 incorrectAnswers = 0;
 currentQuestionNum = 0;
+unansweredQuestions = 0;
 questionGuessesArray = [
 
+        //creating an array that contains the question and a sub-array of answers
           {
-            question: "This is Question 1",
-            answerChoices: ["This is Q1A1", "This is Q1A2", "This is Q1A3", "This is Q1A4"],
-            answer: 0
+            question: "The main character in 'Mad Men' is:",
+            answerChoices: ["Don Draper", "Bert Cooper", "Pete Campbell", "Peggy Olson"],
             } , {
-            question: "This is Question 2",
-            answerChoices: ["This is Q2A1", "This is Q2A2", "This is Q2A3", "This is Q2A4"],
-            answer: 0
+            question: "The series takes place in:",
+            answerChoices: ["Los Angeles", "Chicago", "New York", "Washington D.C."],
             } , {
-            question: "This is Question 3",
-            answerChoices: ["This is Q3A1", "This is Q3A2", "This is Q3A3", "This is Q3A4"],
-            answer: 0
+            question: "The industry setting is:",
+            answerChoices: ["Law", "Banking", "Accounting", "Advertising"],
             } , {
-            question: "This is Question 4",
-            answerChoices: ["This is Q4A1", "This is Q4A2", "This is Q4A3", "This is Q4A4"],
-            answer: 0
+            question: "How many episodes of 'Mad Men' are there?",
+            answerChoices: ["74", "86", "92", "105"],
             } , {
-            question: "This is Question 5",
-            answerChoices: ["This is Q5A1", "This is Q5A2", "This is Q5A3", "This is Q5A4"],
-            answer: 0
+            question: "The series creator was:",
+            answerChoices: ["Vince Gilligan", "Matthew Weiner", "David Simon", "Daivd Chase"],
             } , {
-            question: "This is Question 6",
-            answerChoices: ["This is Q6A1", "This is Q6A2", "This is Q6A3", "This is Q6A4"],
-            answer: 0
+            question: "What is the name of Don Draper's daughter?",
+            answerChoices: ["Elizabeth", "Sally", "Sloan", "Meghan"],
             } , {
-            question: "This is Question 7",
-            answerChoices: ["This is Q7A1", "This is Q7A2", "This is Q7A3", "This is Q7A4"],
-            answer: 0
+            question: "What state does the show's final scene take place in?",
+            answerChoices: ["California", "Florida", "Texas", "New York"],
             } , {
-            question: "This is Question 8",
-            answerChoices: ["This is Q8A1", "This is Q8A2", "This is Q8A3", "This is Q8A4"],
-            answer: 0
+            question: "What actor portrays Don Draper?",
+            answerChoices: ["Matthew McConaughey", "Brad Pitt", "Idris Elba", "Jon Hamm"],
             } , {
-            question: "This is Question 9",
-            answerChoices: ["This is Q9A1", "This is Q9A2", "This is Q9A3", "This is Q9A4"],
-            answer: 0
+            question: "What is Don Draper's cocktail of choice",
+            answerChoices: ["Manhattan", "Martini", "Old Fashioned", "Harvey Wallbanger"],
             } , {
-            question: "This is Question 10",
-            answerChoices: ["This is Q10A1", "This is Q10A2", "This is Q10A3", "This is Q10A4"],
-            answer: 0
+            question: "'Mad Men' originally aired on which network?",
+            answerChoices: ["Netflix", "AMC", "HBO", "Showtime"],
             }
 ]
 
  
-
+//document ready function so the page can load
 $(document).ready(function(){
 
+    
+    //function to decrement the counter by 1 second
     function runTime(){
         setIntervalID = setInterval(function(){
+            $("#correct").empty();
+            $("#wrong").empty();
             $("#timeRemaining").html("<h2> Time Remaining: " + timeRemaining + " seconds </h2>");
             timeRemaining --;
-            if (timeRemaining == 0) {
+            //if statement to take affect if the timer runs out
+            if (timeRemaining == -1) {
+                $("#wrong").html("Too slow!")
                 currentQuestionNum ++;
-                currentQuestion();
+                unansweredQuestions ++;
+                console.log(unansweredQuestions);
+                setTimeout (currentQuestion, 3000);
                 clearInterval(setIntervalID);
                 timeRemaining = 5;
-                runTime();/////////////////this is probably the error
+                setTimeout (runTime, 2000);
+
             };
+            //if statement that takes affect when all of the questions have been answered
+            if (currentQuestionNum === 10){
+                clearInterval(setIntervalID);
+                $("#timeRemaining").empty();
+                $("#gameOver").html("Game Over!");
+                $("#correctAnswers").html("Correct Answers: " + correctAnswers);
+                $("#incorrectAnswers").html("Incorrect Answers: " + incorrectAnswers);
+                $("#unansweredQuestions").html("Unanswered Questions: " + unansweredQuestions);
+            }
         },1000 );
     }
+
+    
 
     //when start button is selected
     $("#start").on("click", function(){
@@ -73,25 +85,71 @@ $(document).ready(function(){
         currentQuestion()
         runTime();
         $(".answers").on("click", function(){
-
-            if (questionGuessesArray[0] && this.id == "answer1") {
+            
+            //if statement to handle if the answer was correct or now
+            if (currentQuestionNum === 0 && this.id == "answer1") {
+                answerCorrect()
+            } else if (currentQuestionNum === 0 && this.id !== "answer1") {
+                answerIncorrect()
+            } else if (currentQuestionNum === 1 && this.id == "answer3") {
+                answerCorrect()
+            } else if (currentQuestionNum === 1 && this.id !== "answer3") {
+                answerIncorrect()
+            } else if (currentQuestionNum === 2 && this.id == "answer4") {
+                answerCorrect()
+            } else if (currentQuestionNum === 2 && this.id !== "answer4") {
+                answerIncorrect()
+            } else if (currentQuestionNum === 3 && this.id == "answer3") {
+                answerCorrect()
+            } else if (currentQuestionNum === 3 && this.id !== "answer3") {
+                answerIncorrect()
+            } else if (currentQuestionNum === 4 && this.id == "answer2") {
+                answerCorrect()
+            } else if (currentQuestionNum === 4 && this.id !== "answer2") {
+                answerIncorrect()
+            } else if (currentQuestionNum === 5 && this.id == "answer2") {
+                answerCorrect()
+            } else if (currentQuestionNum === 5 && this.id !== "answer2") {
+                answerIncorrect()
+            } else if (currentQuestionNum === 6 && this.id == "answer1") {
+                answerCorrect()
+            } else if (currentQuestionNum === 6 && this.id !== "answer1") {
+                answerIncorrect()
+            } else if (currentQuestionNum === 7 && this.id == "answer4") {
+                answerCorrect()
+            } else if (currentQuestionNum === 7 && this.id !== "answer4") {
+                answerIncorrect()
+            } else if (currentQuestionNum === 8 && this.id == "answer3") {
+                answerCorrect()
+            } else if (currentQuestionNum === 8 && this.id !== "answer3") {
+                answerIncorrect()
+                //final if to handle the end of the game
+            } else if (currentQuestionNum === 9 && this.id == "answer2") {
+                $("#correct").html("Correct!");
                 currentQuestionNum ++;
-                currentQuestion();
+                correctAnswers ++;
+                $(".question").empty();
+                $(".answers").empty();
+                $("#timeRemaining").empty();
                 clearInterval(setIntervalID);
-                timeRemaining = 5;
                 runTime();
-            } else if (questionGuessesArray[0] && this.id !== "answer1") {
+                console.log(correctAnswers)
+            } else if (currentQuestionNum === 9 && this.id !== "answer2") {
+                $("#wrong").html("Wrong!")
                 currentQuestionNum ++;
-                currentQuestion();
+                incorrectAnswers ++;
+                $(".question").empty();
+                $(".answers").empty();
+                $("#timeRemaining").empty();
                 clearInterval(setIntervalID);
-                timeRemaining = 5;
                 runTime();
-            }
+                console.log(incorrectAnswers)
+            } 
         });
     });
 
  
-
+    //function to clear out divs and append next question
     function currentQuestion() {
         $(".question").empty();
         $(".answers").empty();
@@ -100,6 +158,30 @@ $(document).ready(function(){
         $("#answer2").html(questionGuessesArray[currentQuestionNum].answerChoices[1]);
         $("#answer3").html(questionGuessesArray[currentQuestionNum].answerChoices[2]);
         $("#answer4").html(questionGuessesArray[currentQuestionNum].answerChoices[3]);
+    }
+
+    //function to call when an answer is correct
+    function answerCorrect() {
+        $("#correct").html("Correct!");
+        currentQuestionNum ++;
+        correctAnswers ++;
+        setTimeout (currentQuestion, 3000)
+        clearInterval(setIntervalID);
+        timeRemaining = 5;
+        setTimeout (runTime, 2000)
+        console.log(correctAnswers)
+    }
+
+    //function to call when an answer is wrong
+    function answerIncorrect() {
+        $("#wrong").html("Wrong!")
+        currentQuestionNum ++;
+        incorrectAnswers ++;
+        setTimeout (currentQuestion, 3000)
+        clearInterval(setIntervalID);
+        timeRemaining = 5;
+        setTimeout (runTime, 2000)
+        console.log(incorrectAnswers)
     }
 });
 
