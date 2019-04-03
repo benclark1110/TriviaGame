@@ -1,37 +1,67 @@
 timeRemaining = 5;
-questionCount = 0;
 correctAnswers = 0;
 incorrectAnswers = 0;
-
+currentQuestionNum = 0;
 questionGuessesArray = [
+
           {
             question: "This is Question 1",
             answerChoices: ["This is Q1A1", "This is Q1A2", "This is Q1A3", "This is Q1A4"],
             answer: 0
             } , {
-            question: "This is Question 1",
+            question: "This is Question 2",
             answerChoices: ["This is Q2A1", "This is Q2A2", "This is Q2A3", "This is Q2A4"],
-            answer: 1
+            answer: 0
             } , {
-            question: "This is Question 1",
+            question: "This is Question 3",
             answerChoices: ["This is Q3A1", "This is Q3A2", "This is Q3A3", "This is Q3A4"],
-            answer: 2
-            } 
+            answer: 0
+            } , {
+            question: "This is Question 4",
+            answerChoices: ["This is Q4A1", "This is Q4A2", "This is Q4A3", "This is Q4A4"],
+            answer: 0
+            } , {
+            question: "This is Question 5",
+            answerChoices: ["This is Q5A1", "This is Q5A2", "This is Q5A3", "This is Q5A4"],
+            answer: 0
+            } , {
+            question: "This is Question 6",
+            answerChoices: ["This is Q6A1", "This is Q6A2", "This is Q6A3", "This is Q6A4"],
+            answer: 0
+            } , {
+            question: "This is Question 7",
+            answerChoices: ["This is Q7A1", "This is Q7A2", "This is Q7A3", "This is Q7A4"],
+            answer: 0
+            } , {
+            question: "This is Question 8",
+            answerChoices: ["This is Q8A1", "This is Q8A2", "This is Q8A3", "This is Q8A4"],
+            answer: 0
+            } , {
+            question: "This is Question 9",
+            answerChoices: ["This is Q9A1", "This is Q9A2", "This is Q9A3", "This is Q9A4"],
+            answer: 0
+            } , {
+            question: "This is Question 10",
+            answerChoices: ["This is Q10A1", "This is Q10A2", "This is Q10A3", "This is Q10A4"],
+            answer: 0
+            }
 ]
 
-$(document).ready(function(){
+ 
 
-    console.log(questionGuessesArray[2].answer1);//can reach in and grab the specific answer i want
+$(document).ready(function(){
 
     function runTime(){
         setIntervalID = setInterval(function(){
             $("#timeRemaining").html("<h2> Time Remaining: " + timeRemaining + " seconds </h2>");
-            if (timeRemaining === 0) {
-                clearInterval(setIntervalID);
-                questionCount ++;
-                console.log(questionCount);//not affectig anything yet
-            };
             timeRemaining --;
+            if (timeRemaining == 0) {
+                currentQuestionNum ++;
+                currentQuestion();
+                clearInterval(setIntervalID);
+                timeRemaining = 5;
+                runTime();/////////////////this is probably the error
+            };
         },1000 );
     }
 
@@ -40,60 +70,36 @@ $(document).ready(function(){
 
         //hiding start button after it is clicked
         $("#start").hide();
-
-        
-        
-
-                $("#question").html(questionGuessesArray[0].question);
-                $("#answer1").html(questionGuessesArray[0].answerChoices[0]);
-                $("#answer2").html(questionGuessesArray[0].answerChoices[1]);
-                $("#answer3").html(questionGuessesArray[0].answerChoices[2]);
-                $("#answer4").html(questionGuessesArray[0].answerChoices[3]);
- 
+        currentQuestion()
         runTime();
+        $(".answers").on("click", function(){
 
-    });
-
-    $(".answers").on("click", function(){
-        clearInterval(setIntervalID);
-        //identifying which answer was clicked
-        if (questionGuessesArray[0] && this.id == "answer1") {
-            console.log("right answer");
-            setTimeout (function(){ 
-                correctAnswers ++;
-                console.log(correctAnswers);
-                $(".question").empty();
-                $(".answers").empty();
-                $("#question").html(questionGuessesArray[1].question);
-                $("#answer1").html(questionGuessesArray[1].answerChoices[0]);
-                $("#answer2").html(questionGuessesArray[1].answerChoices[1]);
-                $("#answer3").html(questionGuessesArray[1].answerChoices[2]);
-                $("#answer4").html(questionGuessesArray[1].answerChoices[3]);
+            if (questionGuessesArray[0] && this.id == "answer1") {
+                currentQuestionNum ++;
+                currentQuestion();
                 clearInterval(setIntervalID);
                 timeRemaining = 5;
                 runTime();
-            }, 2000)
-        } else {
-            console.log("wrong answer");
-            setTimeout (function(){ 
-                incorrectAnswers ++;
-                console.log(incorrectAnswers);
-                $(".question").empty();
-                $(".answers").empty();
-                $("#question").html(questionGuessesArray[1].question);
-                $("#answer1").html(questionGuessesArray[1].answerChoices[0]);
-                $("#answer2").html(questionGuessesArray[1].answerChoices[0]);
-                $("#answer3").html(questionGuessesArray[1].answerChoices[0]);
-                $("#answer4").html(questionGuessesArray[1].answerChoices[0]);
+            } else if (questionGuessesArray[0] && this.id !== "answer1") {
+                currentQuestionNum ++;
+                currentQuestion();
                 clearInterval(setIntervalID);
                 timeRemaining = 5;
                 runTime();
-            }, 2000)
-        }
-
-
+            }
+        });
     });
+
+ 
+
+    function currentQuestion() {
+        $(".question").empty();
+        $(".answers").empty();
+        $("#question").html(questionGuessesArray[currentQuestionNum].question);
+        $("#answer1").html(questionGuessesArray[currentQuestionNum].answerChoices[0]);
+        $("#answer2").html(questionGuessesArray[currentQuestionNum].answerChoices[1]);
+        $("#answer3").html(questionGuessesArray[currentQuestionNum].answerChoices[2]);
+        $("#answer4").html(questionGuessesArray[currentQuestionNum].answerChoices[3]);
+    }
 });
 
-
-///when interval reaches 0...need to set time remaining back to 5 and run the time decrement again
